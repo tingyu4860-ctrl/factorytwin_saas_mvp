@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FactoryTwin Pro｜Digital Twin SaaS Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">FT</div><div><h1>FactoryTwin</h1><p>Digital Twin SaaS</p></div></div>
+      <nav><a class="active">總覽 Dashboard</a><a>智慧工廠</a><a>供應鏈最佳化</a><a>AI 決策助理</a><a>報告匯出</a></nav>
+      <div class="sidebar-card"><p class="small-title">系統狀態</p><strong id="systemStatus">穩定運作中</strong><span>資料每 5 秒模擬更新</span></div>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div><p class="eyebrow">MIS × Industry 4.0 × Digital Twin</p><h2>智慧製造與供應鏈最佳化儀表板</h2><p class="subtext">模擬企業如何透過數位孿生掌握產線狀態、預測設備風險，並支援管理決策。</p></div><button class="primary" onclick="resetDashboard()">重置模擬</button></header>
+      <section class="kpi-grid">
+        <article class="kpi-card"><div><p>產能效率</p><h3 id="efficiency">95%</h3></div><span class="badge green" id="efficiencyBadge">良好</span><div class="progress"><div id="efficiencyBar" style="width:95%"></div></div></article>
+        <article class="kpi-card"><div><p>生產成本指數</p><h3 id="cost">100</h3></div><span class="badge blue" id="costBadge">基準</span><div class="sparkline mini">成本壓力監控</div></article>
+        <article class="kpi-card"><div><p>準時交付率</p><h3 id="deliveryRate">96%</h3></div><span class="badge green" id="deliveryBadge">低風險</span><div class="progress"><div id="deliveryBar" style="width:96%"></div></div></article>
+        <article class="kpi-card"><div><p>設備健康度</p><h3 id="health">92%</h3></div><span class="badge green" id="healthBadge">正常</span><div class="progress"><div id="healthBar" style="width:92%"></div></div></article>
+      </section>
+      <section class="content-grid">
+        <article class="panel wide"><div class="panel-header"><div><h3>即時數據趨勢</h3><p>以折線圖模擬數位孿生持續監測產能與交付狀態。</p></div><div class="tabs"><button class="tab active" onclick="switchChart('efficiency', this)">產能</button><button class="tab" onclick="switchChart('delivery', this)">交付</button></div></div><canvas id="trendChart" width="700" height="260"></canvas></article>
+        <article class="panel"><div class="panel-header"><div><h3>情境模擬</h3><p>切換事件，觀察工廠孿生模型如何即時反映。</p></div></div><div class="scenario-buttons"><button onclick="setScenario('normal')" id="btn-normal" class="scenario active">正常生產</button><button onclick="setScenario('failure')" id="btn-failure" class="scenario">設備故障</button><button onclick="setScenario('ai')" id="btn-ai" class="scenario">AI 預測維護</button><button onclick="setScenario('demand')" id="btn-demand" class="scenario">需求暴增</button></div></article>
+      </section>
+      <section class="content-grid">
+        <article class="panel wide"><div class="panel-header"><div><h3>智慧工廠數位孿生地圖</h3><p>以簡化工廠地圖呈現生產流程與設備狀態。</p></div></div><div class="factory-map"><div class="station normal" id="station-1"><span class="pulse"></span><strong>CNC 加工</strong><small id="stationText1">正常</small></div><div class="route"></div><div class="station normal" id="station-2"><span class="pulse"></span><strong>組裝線</strong><small id="stationText2">正常</small></div><div class="route"></div><div class="station normal" id="station-3"><span class="pulse"></span><strong>品質檢測</strong><small id="stationText3">正常</small></div><div class="route"></div><div class="station normal" id="station-4"><span class="pulse"></span><strong>包裝出貨</strong><small id="stationText4">正常</small></div></div></article>
+        <article class="panel"><div class="panel-header"><div><h3>供應鏈最佳化</h3><p>依據成本、交期與風險選擇供應商。</p></div></div><label for="supplier">供應商選擇</label><select id="supplier" onchange="setSupplier(this.value)"><option value="A">供應商 A｜低成本、慢交期、中風險</option><option value="B">供應商 B｜高成本、快交期、低風險</option><option value="C">供應商 C｜中成本、普通交期、高風險</option></select><div class="supplier-list"><div><span>成本</span><strong id="supplierCost">低</strong></div><div><span>交期</span><strong id="supplierSpeed">慢</strong></div><div><span>風險</span><strong id="supplierRisk">中</strong></div></div></article>
+      </section>
+      <section class="content-grid">
+        <article class="panel ai-panel"><div class="panel-header"><div><h3>AI 決策助理</h3><p>模擬管理資訊系統將數據轉化為管理建議。</p></div></div><div class="chat-box" id="chatBox"><div class="message bot"><strong>FactoryTwin AI</strong><p id="aiAdvice">目前生產穩定，建議維持設備監控並保留安全庫存。</p></div></div><div class="quick-questions"><button onclick="askAI('risk')">目前最大風險？</button><button onclick="askAI('cost')">如何降低成本？</button><button onclick="askAI('supply')">供應鏈建議？</button></div></article>
+        <article class="panel report-panel"><div class="panel-header"><div><h3>MIS 內涵說明</h3><p>本 MVP 對應管理資訊系統課程重點。</p></div></div><ul class="mis-list"><li><strong>資料蒐集：</strong>模擬設備、產能、供應商資料。</li><li><strong>資料處理：</strong>將狀態轉換為 KPI 與風險指標。</li><li><strong>決策支援：</strong>依情境產生維護與供應鏈建議。</li><li><strong>商業價值：</strong>降低停機、提升交期穩定度與管理效率。</li></ul></article>
+      </section>
+    </main>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
